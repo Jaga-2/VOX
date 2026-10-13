@@ -1,0 +1,109 @@
+/* =========================================================
+   VOX DESIGN SYSTEM - RESPONSIVE & MOBILE ADAPTATION
+   Handles Android screens (360x800, 390x844, 412x915), tablets & desktop
+   ========================================================= */
+
+/* Desktop & Wide Screens */
+@media (min-width: 600px) {
+  body {
+    background: radial-gradient(circle at 50% 20%, #0F172A, #050811);
+    padding: 20px 0;
+  }
+
+  .app-container {
+    height: 890px;
+    box-shadow: 0 30px 80px -15px rgba(0, 0, 0, 0.9), 0 0 0 12px #1E293B, 0 0 0 14px rgba(255, 255, 255, 0.08);
+  }
+
+  /* Device frame switcher bar on top of desktop view */
+  .desktop-controls-bar {
+    position: fixed;
+    top: 14px;
+    display: flex;
+    gap: 10px;
+    z-index: 1000;
+  }
+}
+
+/* Fullscreen mode toggle for wide viewports if user requests */
+body.fullscreen-mode .app-container {
+  max-width: 100% !important;
+  max-height: 100vh !important;
+  height: 100vh !important;
+  border-radius: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+body.fullscreen-mode .app-content {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+body.fullscreen-mode .bottom-nav {
+  max-width: 720px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 24px 24px 0 0;
+}
+
+/* Native Android Mobile Viewports (Under 600px) */
+@media (max-width: 599px) {
+  body {
+    padding: 0;
+    align-items: flex-start;
+  }
+
+  .app-container {
+    max-width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+  }
+
+  .desktop-controls-bar {
+    display: none;
+  }
+
+  .app-content {
+    padding: 12px 14px 105px 14px;
+  }
+
+  .bottom-sheet {
+    width: 100%;
+    border-radius: 24px 24px 0 0;
+  }
+}
+
+/* Small Android Devices (360px width) */
+@media (max-width: 375px) {
+  .large-number {
+    font-size: 28px;
+  }
+  .stat-value {
+    font-size: 13px;
+  }
+  .tx-details h5 {
+    font-size: 13px;
+  }
+  .quick-chips-row {
+    gap: 6px;
+  }
+  .chip-btn {
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+}
+
+/* Safe Area Insets for Edge-to-Edge Android and Modern Displays */
+@supports (padding: max(0px)) {
+  .app-header {
+    padding-top: max(12px, env(safe-area-inset-top));
+  }
+  .bottom-nav {
+    padding-bottom: max(14px, env(safe-area-inset-bottom));
+    height: calc(75px + env(safe-area-inset-bottom));
+  }
+}
