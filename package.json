@@ -1,0 +1,19 @@
+{
+  "name": "vox-finance-assistant",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "VOX — Android-First Finance Voice Assistant MVP",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "voice-assistant",
+    "personal-finance",
+    "android-first",
+    "firebase",
+    "fintech"
+  ],
+  "author": "VOX Team",
+  "license": "MIT"
+}

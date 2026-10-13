@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>VOX — Android-First Finance Voice Assistant</title>
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎙️</text></svg>">
+</head>
+<body>
+
+  <!-- Ambient Glowing Bacgkround Orbs -->
+  <div class="ambient-glow ambient-top-left"></div>
+  <div class="ambient-glow ambient-bottom-right"></div>
+
+  <!-- Desktop Controls Bar (Android Bezel vs Fullscreen) -->
+  <div class="desktop-controls-bar">
+    <button class="chip-btn" id="btnToggleDesktopFrame" style="background:#1E293B; border-color:rgba(255,255,255,0.15);">
+      📱 Android Frame
+    </button>
+    <button class="chip-btn btn-load-demo" style="background:rgba(139,92,246,0.2); border-color:var(--violet); color:#D8B4FE;">
+      ⚡ Reset Demo Data
+    </button>
+  </div>
+
+  <!-- Main Mobile App Shell -->
+  <div class="app-container">
+
+    <!-- Android Status Bar Mock -->
+    <div class="android-status-bar">
+      <span>12:30</span>
+      <div class="camera-cutout"></div>
+      <div class="status-icons">
+        <span>5G</span>
+        <span>📶</span>
+        <span>98%</span>
+      </div>
+    </div>
+
+    <!-- App Header -->
+    <header class="app-header">
+      <div class="brand-group">
+        <div class="vox-logo">VOX</div>
+        <span class="demo-tag" id="demoTag">DEMO DATA</span>
+      </div>
+      <div class="header-actions">
+        <button class="btn-icon" id="btnToggleAudio" title="Toggle Spoken Voice Responses">🔊</button>
+        <button class="btn-icon" id="headerChatBtn" title="WhatsApp-style Conversational Assistant">💬</button>
+        <div class="user-avatar-btn" id="headerUserAvatar" title="Account / Profile">S</div>
+      </div>
+    </header>
+
+    <!-- Main Scrollable App Content Area -->
+    <main class="app-content">
+
+      <!-- ========================================== -->
+      <!-- TAB 1: HOME DASHBOARD                      -->
+      <!-- ========================================== -->
+      <section class="tab-screen active" id="tab-home">
+        
+        <!-- Greeting & Quick Status -->
+        <div style="margin-bottom: 12px;">
+          <h2 id="dashGreeting" style="font-size: 20px; font-weight: 800; color: #FFFFFF;">Good morning, Saurabh 👋</h2>
+          <p style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">Your financial snapshot is ready</p>
+        </div>
+
+        <!-- Available Balance Hero Card -->
+        <div class="glass-card balance-card">
+          <div class="card-subtext">
+            <span>Available Balance</span>
+            <span style="font-size: 11px; color: var(--violet); font-weight: 600;">Liquid Funds</span>
+          </div>
+          <div class="large-number" id="dashAvailableBalance">₹18,450</div>
+          
+          <div class="balance-row">
+            <div class="stat-pill">
+              <span class="stat-label">Net Worth</span>
+              <span class="stat-value gold" id="dashNetWorth">₹38,450</span>
+            </div>
+            <div class="stat-pill">
+              <span class="stat-label">This Month Income</span>
+              <span class="stat-value mint" id="dashMonthIncome">+₹30,000</span>
+            </div>
+            <div class="stat-pill">
+              <span class="stat-label">Spent</span>
+              <span class="stat-value coral" id="dashMonthExpense">-₹11,550</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Safe-to-Spend Feature Banner -->
+        <div class="safe-spend-banner" id="dashSafeSpendBanner" title="View safe to spend calculation">
+          <div class="safe-spend-text">
+            <h4>Safe to Spend Today</h4>
+            <p id="dashSafeSpendToday">₹640</p>
+          </div>
+          <div style="text-align: right;">
+            <span class="safe-spend-badge">Protected</span>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">
+              Today's Spent: <b style="color: #FFF;" id="dashTodaySpend">₹420</b>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Innovation Chips Row -->
+        <div class="quick-chips-row">
+          <button class="chip-btn" id="chipDemoAfford">🧥 Can I Afford?</button>
+          <button class="chip-btn" id="chipDemoDailyLog">🌙 Daily Log</button>
+          <button class="chip-btn" id="chipDemoReconcile">💵 Reconcile Cash</button>
+          <button class="chip-btn" id="chipDemoWorthIt">🎧 Worth-It Review</button>
+        </div>
+
+        <!-- Dynamic VOX Rule-Based Insight Card -->
+        <div class="glass-card insight-card" id="dashTopInsight">
+          <div class="insight-header">
+            <span>💡</span>
+            <span>VOX Insight</span>
+          </div>
+          <p class="insight-body">Dining spending is higher than your normal weekly average.</p>
+        </div>
+
+        <!-- Upcoming Bills Preview -->
+        <div class="glass-card">
+          <div class="section-title" style="margin-top: 0; margin-bottom: 8px;">
+            <span>Upcoming Essential Bills</span>
+            <span class="link" onclick="window.voxApp.ui.switchTab('plan')">See all</span>
+          </div>
+          <div id="dashUpcomingBillsList">
+            <!-- Rendered by ui.js -->
+          </div>
+        </div>
+
+        <!-- Budget Status Preview -->
+        <div class="glass-card">
+          <div class="section-title" style="margin-top: 0; margin-bottom: 8px;">
+            <span>Budget Progress</span>
+            <span class="link" onclick="window.voxApp.ui.switchTab('plan')">Manage</span>
+          </div>
+          <div id="dashBudgetList">
+            <!-- Rendered by ui.js -->
+          </div>
+        </div>
+
+        <!-- Recent Transactions -->
+        <div style="margin-top: 14px;">
+          <div class="section-title">
+            <span>Recent Transactions</span>
+            <span class="link" onclick="window.voxApp.ui.switchTab('money')">View all</span>
+          </div>
+          <div id="dashRecentTxList">
+            <!-- Rendered by ui.js -->
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ========================================== -->
+      <!-- TAB 2: MONEY & ACCOUNTS                    -->
+      <!-- ========================================== -->
+      <section class="tab-screen" id="tab-money">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <div>
+            <h2 style="font-size: 20px; font-weight: 800; color: #FFFFFF;">Money & Accounts</h2>
+            <p style="font-size: 12px; color: var(--text-secondary);">Balances, cash and transactions</p>
+          </div>
+          <button class="chip-btn" id="btnOpenManualTx" style="background: rgba(16, 185, 129, 0.15); border-color: var(--mint); color: var(--mint);">
+            ➕ Manual Entry
+          </button>
+        </div>
+
+        <!-- Net Worth & Breakdown -->
+        <div class="glass-card">
+          <div class="card-subtext">
+            <span>Total Net Worth</span>
+            <span style="font-size: 11px; color: var(--gold); font-weight: 700;">ALL ASSETS</span>
+          </div>
+          <div class="large-number" id="moneyNetWorth">₹38,450</div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border-glass);">
+            <div>
+              <span class="stat-label">Wallet Cash</span>
+              <div style="font-size: 14px; font-weight: 700; color: #FFF;" id="moneyCashBalance">₹125</div>
+            </div>
+            <div>
+              <span class="stat-label">Digital Funds</span>
+              <div style="font-size: 14px; font-weight: 700; color: #FFF;" id="moneyDigitalBalance">₹18,325</div>
+            </div>
+            <div>
+              <span class="stat-label">Savings</span>
+              <div style="font-size: 14px; font-weight: 700; color: var(--gold);" id="moneySavingsBalance">₹20,000</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Accounts List -->
+        <div class="section-title">Accounts</div>
+        <div id="moneyAccountsList">
+          <!-- Rendered by ui.js -->
+        </div>
+
+        <!-- All Transactions -->
+        <div class="section-title" style="margin-top: 20px;">
+          <span>Transaction History</span>
+        </div>
+        <div id="moneyAllTxList">
+          <!-- Rendered by ui.js -->
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- TAB 3: VOICE EXPERIENCE (PRIMARY TAB)      -->
+      <!-- ========================================== -->
+      <section class="tab-screen" id="tab-voice">
+        <div class="voice-screen-wrap">
+          <div>
+            <h2 class="voice-status-title" id="voiceStatusTitle">VOX is Ready</h2>
+            <p style="font-size: 13px; color: var(--text-secondary);" id="voiceStatusSub">
+              Tap orb or type below to begin
+            </p>
+          </div>
+
+          <!-- Animated Multi-State Voice Orb -->
+          <div class="voice-orb-display" id="voiceOrbDisplay">
+            <div class="orb-glow-ring"></div>
+            <div class="orb-core" id="voiceOrbCore" title="Tap to speak">
+              🎙️
+            </div>
+          </div>
+
+          <!-- Live Spoken Transcript Box -->
+          <div class="voice-transcript-box" id="voiceLiveTranscript">
+            "Just say it. VOX does the rest."
+          </div>
+
+          <!-- Quick Spoken Command Presets -->
+          <div style="width: 100%; margin-bottom: 12px;">
+            <p style="font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-weight: 700; margin-bottom: 8px;">
+              Try Saying or Tapping
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 6px; max-width: 360px; margin: 0 auto;">
+              <button class="chip-btn" onclick="window.voxApp.processVoiceCommand('Spent 450 on groceries')">
+                "Spent 450 on groceries"
+              </button>
+              <button class="chip-btn" onclick="window.voxApp.processVoiceCommand('Can I afford a rainy jacket for ₹1,200 this month?')">
+                "Can I afford a jacket for 1200?"
+              </button>
+              <button class="chip-btn" onclick="window.voxApp.processVoiceCommand('I have 100 cash in my hand')">
+                "I have 100 cash in my hand"
+              </button>
+              <button class="chip-btn" onclick="window.voxApp.processVoiceCommand('Spent 800 on headphones. Check back in one month.')">
+                "Spent 800 on headphones. Check back in 30 days"
+              </button>
+              <button class="chip-btn" onclick="window.voxApp.processVoiceCommand('How much did I spend today?')">
+                "How much did I spend today?"
+              </button>
+            </div>
+          </div>
+
+          <!-- Keyboard / Fallback Typing Bar -->
+          <div class="voice-fallback-bar">
+            <input type="text" id="inputVoiceFallback" class="voice-input-field" placeholder="Or type voice command...">
+            <button class="voice-send-btn" id="btnSendVoiceFallback">➔</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- TAB 4: PLAN (BUDGETS, BILLS, SUBS, GOALS)  -->
+      <!-- ========================================== -->
+      <section class="tab-screen" id="tab-plan">
+        <div style="margin-bottom: 14px;">
+          <h2 style="font-size: 20px; font-weight: 800; color: #FFFFFF;">Financial Plan</h2>
+          <p style="font-size: 12px; color: var(--text-secondary);">Budgets, bills, subscriptions & goals</p>
+        </div>
+
+        <!-- Category Budgets -->
+        <div class="section-title">
+          <span>Monthly Budgets</span>
+        </div>
+        <div id="planBudgetsList">
+          <!-- Rendered by ui.js -->
+        </div>
+
+        <!-- Upcoming Bills -->
+        <div class="section-title" style="margin-top: 18px;">
+          <span>Recurring Bills</span>
+        </div>
+        <div id="planBillsList">
+          <!-- Rendered by ui.js -->
+        </div>
+
+        <!-- Subscriptions -->
+        <div class="section-title" style="margin-top: 18px;">
+          <span>Subscriptions Intelligence</span>
+        </div>
+        <div class="glass-card" style="padding: 12px 14px; margin-bottom: 10px;">
+          <p id="planSubsSummary" style="font-size: 12px; color: #CBD5E1; margin-bottom: 10px; font-weight: 600;">
+            Calculating subscriptions...
+          </p>
+          <div id="planSubsList">
+            <!-- Rendered by ui.js -->
+          </div>
+        </div>
+
+        <!-- Savings Goals -->
+        <div class="section-title" style="margin-top: 18px;">
+          <span>Savings Goals</span>
+        </div>
+        <div id="planGoalsList">
+          <!-- Rendered by ui.js -->
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- TAB 5: GROW (FINANCIAL EDUCATION & SIM)    -->
+      <!-- ========================================== -->
+      <section class="tab-screen" id="tab-grow">
+        <div style="margin-bottom: 14px;">
+          <h2 style="font-size: 20px; font-weight: 800; color: #FFFFFF;">Grow & Learn</h2>
+          <p style="font-size: 12px; color: var(--text-secondary);">Financial education & wealth simulator</p>
+        </div>
+
+        <!-- Mandatory Disclaimer -->
+        <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 12px; padding: 10px 14px; margin-bottom: 14px; font-size: 11px; color: #FDE68A;">
+          ⚠️ <b>Educational Notice:</b> For education and personal budgeting purposes only. VOX does not provide tax, legal, or professional investment execution.
+        </div>
+
+        <!-- Interactive Compound Growth Simulator -->
+        <div class="glass-card">
+          <h4 style="font-size: 15px; font-weight: 700; color: #FFF; margin-bottom: 4px;">📈 Compound Growth Simulator</h4>
+          <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">See how small disciplined savings grow over time.</p>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div class="form-group">
+              <label class="form-label">Initial Amount (₹)</label>
+              <input type="number" id="simInitial" class="form-control" value="10000">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Monthly SIP (₹)</label>
+              <input type="number" id="simMonthly" class="form-control" value="2000">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Expected Return (%/yr)</label>
+              <input type="number" id="simRate" class="form-control" value="12">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Duration (Years)</label>
+              <input type="number" id="simYears" class="form-control" value="5">
+            </div>
+          </div>
+
+          <button class="btn btn-primary" id="btnSimulateGrowth" style="width: 100%; margin-top: 4px;">
+            Calculate Growth
+          </button>
+
+          <div id="simResultBox"></div>
+        </div>
+
+        <!-- Educational Modules -->
+        <div class="glass-card">
+          <h4 style="font-size: 14px; font-weight: 700; color: #FFF; margin-bottom: 6px;">🛡️ The Emergency Fund Rule</h4>
+          <p style="font-size: 12px; color: var(--text-secondary); line-height: 1.5;">
+            Aim to keep 3 to 6 months of essential living expenses (rent + food + utilities) in a high-interest liquid account. VOX keeps this amount ring-fenced so your Safe-to-Spend never leaves you vulnerable.
+          </p>
+        </div>
+
+        <div class="glass-card">
+          <h4 style="font-size: 14px; font-weight: 700; color: #FFF; margin-bottom: 6px;">📊 The 50 / 30 / 20 Budget Principle</h4>
+          <p style="font-size: 12px; color: var(--text-secondary); line-height: 1.5;">
+            Allocate 50% of take-home pay to Needs (rent, groceries, basic bills), 30% to Wants (dining, streaming, entertainment), and 20% to Savings and Debt repayment.
+          </p>
+        </div>
+
+        <div class="glass-card">
+          <h4 style="font-size: 14px; font-weight: 700; color: #FFF; margin-bottom: 6px;">⚡ Debt Avalanche vs Snowball</h4>
+          <p style="font-size: 12px; color: var(--text-secondary); line-height: 1.5;">
+            <b>Avalanche:</b> Pay minimum on all debts, attack highest interest debt first (mathematically optimal).<br>
+            <b>Snowball:</b> Pay smallest balance first for psychological momentum.
+          </p>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Bottom Navigation Bar with Elevated Central Voice Orb -->
+    <nav class="bottom-nav">
+      <button class="nav-item active" data-tab="home">
+        <span class="nav-icon">🏠</span>
+        <span>Home</span>
+      </button>
+
+      <button class="nav-item" data-tab="money">
+        <span class="nav-icon">💳</span>
+        <span>Money</span>
+      </button>
+
+      <!-- Center Voice Orb -->
+      <div class="nav-orb-container" id="navCenterOrb">
+        <div class="nav-orb-btn">🎙️</div>
+        <span class="nav-orb-label">VOICE</span>
+      </div>
+
+      <button class="nav-item" data-tab="plan">
+        <span class="nav-icon">📋</span>
+        <span>Plan</span>
+      </button>
+
+      <button class="nav-item" data-tab="grow">
+        <span class="nav-icon">🌱</span>
+        <span>Grow</span>
+      </button>
+    </nav>
+
+    <!-- ========================================== -->
+    <!-- INTERACTIVE MODALS & BOTTOM SHEETS         -->
+    <!-- ========================================== -->
+
+    <!-- Modal 1: Confirmation Card (Never Guess Silently) -->
+    <div class="modal-backdrop" id="modalConfirmation">
+      <div class="bottom-sheet">
+        <div class="sheet-handle"></div>
+        <h4 class="confirm-title">Here's what I understood</h4>
+        <p class="confirm-sub">Review parsed details before saving</p>
+        <div id="confirmationCardContent"></div>
+      </div>
+    </div>
+
+    <!-- Modal 2: Innovation 1 "Can I Afford It?" Card -->
+    <div class="modal-backdrop" id="modalAffordability">
+      <div class="bottom-sheet">
+        <div class="sheet-handle"></div>
+        <div id="affordabilityCardContent"></div>
+      </div>
+    </div>
+
+    <!-- Modal 3: Innovation 2 Daily Spending Log -->
+    <div class="modal-backdrop" id="modalDailyLog">
+      <div class="bottom-sheet">
+        <div class="sheet-handle"></div>
+        <div id="dailyLogContent"></div>
+      </div>
+    </div>
+
+    <!-- Modal 4: Innovation 3 Cash Reconciliation -->
+    <div class="modal-backdrop" id="modalReconciliation">
+      <div class="bottom-sheet">
+        <div class="sheet-handle"></div>
+        <div id="reconciliationContent"></div>
+      </div>
+    </div>
+
+    <!-- Modal 5: Innovation 4 "Worth-It" Purchase Reflection -->
+    <div class="modal-backdrop" id="modalWorthIt">
+      <div class="bottom-sheet">
+        <div class="sheet-handle"></div>
+        <div id="worthItContent"></div>
+      </div>
+    </div>
+
+    <!-- Modal 6: WhatsApp-Style Conversational Assistant Drawer -->
+    <div class="modal-backdrop" id="modalChat">
+      <div class="bottom-sheet" style="height: 75vh;">
+        <div class="sheet-handle"></div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <div>
+            <h4 style="font-size: 16px; font-weight: 700; color: #FFF;">VOX Assistant</h4>
+            <span style="font-size: 11px; color: var(--mint);">Online • Fact-based money agent</span>
+          </div>
+          <button class="btn-icon" onclick="document.getElementById('modalChat').classList.remove('active')">✕</button>
+        </div>
+
+        <div class="chat-container">
+          <div class="chat-messages" id="chatMessagesBox">
+            <div class="chat-bubble bubble-vox">
+              <div class="chat-speaker">VOX Assistant</div>
+              <div>Hi! I'm VOX. Ask me questions like "What did I spend today?", "Can I afford ₹1,200 jacket?", or tell me your expenses by voice.</div>
+            </div>
+          </div>
+          <div style="display: flex; gap: 8px; margin-top: 10px;">
+            <input type="text" id="inputChatMessage" class="form-control" placeholder="Ask VOX anything..." style="border-radius: var(--radius-full);">
+            <button class="btn-icon" id="btnSendChatMessage" style="background: var(--violet); color: white; width: 42px; height: 42px;">➔</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal 7: Manual Transaction Entry Fallback -->
+    <div class="modal-backdrop" id="modalManualTx">
+      <div class="bottom-sheet">
+        <div class="sheet-handle"></div>
+        <h4 class="confirm-title">Add Transaction</h4>
+        <p class="confirm-sub">Manual entry fallback</p>
+
+        <form id="formManualTx">
+          <div class="form-group">
+            <label class="form-label">Type</label>
+            <select id="manualTxType" class="form-control">
+              <option value="expense">Expense (-)</option>
+              <option value="income">Income (+)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Amount (₹)</label>
+            <input type="number" id="manualTxAmount" class="form-control" placeholder="e.g. 450" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Category</label>
+            <select id="manualTxCategory" class="form-control">
+              <option value="Food">Food / Dining</option>
+              <option value="Groceries">Groceries</option>
+              <option value="Transport">Transport</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Shopping">Shopping</option>
+              <option value="Rent">Rent</option>
+              <option value="Utilities">Utilities</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Salary">Salary</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Payment Method</label>
+            <select id="manualTxPayment" class="form-control">
+              <option value="UPI">PhonePe / UPI</option>
+              <option value="Cash">Wallet Cash</option>
+              <option value="Card">Debit / Credit Card</option>
+              <option value="Bank Transfer">Bank Transfer</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Description (Optional)</label>
+            <input type="text" id="manualTxDesc" class="form-control" placeholder="e.g. Lunch at cafe">
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-secondary" onclick="document.getElementById('modalManualTx').classList.remove('active')">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save Transaction</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal 8: User Auth & Account Management -->
+    <div class="modal-backdrop" id="modalAuth">
+      <div class="bottom-sheet">
+        <div class="sheet-handle"></div>
+        <div id="authModalContent"></div>
+      </div>
+    </div>
+
+    <!-- Modal 9: Onboarding Wizard (Section 11) -->
+    <div class="modal-backdrop" id="modalOnboarding">
+      <div class="bottom-sheet">
+        <div class="sheet-handle"></div>
+        <h4 class="confirm-title">Welcome to VOX</h4>
+        <p class="confirm-sub">Let's configure your financial baseline</p>
+
+        <form id="formOnboarding">
+          <div class="form-group">
+            <label class="form-label">Your Name</label>
+            <input type="text" id="onboardName" class="form-control" placeholder="e.g. Saurabh" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Monthly Income (₹)</label>
+            <input type="number" id="onboardIncome" class="form-control" placeholder="30000" value="30000">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Opening Physical Cash (₹)</label>
+            <input type="number" id="onboardCash" class="form-control" placeholder="125" value="125">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Bank & UPI Balance (₹)</label>
+            <input type="number" id="onboardBank" class="form-control" placeholder="18325" value="18325">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Monthly Rent (₹)</label>
+            <input type="number" id="onboardRent" class="form-control" placeholder="8000" value="8000">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Monthly Spending Budget (₹)</label>
+            <input type="number" id="onboardBudget" class="form-control" placeholder="15000" value="15000">
+          </div>
+          <div class="btn-group">
+            <button type="submit" class="btn btn-primary">Complete Setup</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div> <!-- End App Container -->
+
+  <!-- Load Master Modules -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>VOX — Financial Onboarding</title>
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎙️</text></svg>">
+</head>
+<body style="display:flex; justify-content:center; align-items:center; min-height:100vh;">
+
+  <div class="ambient-glow ambient-top-left"></div>
+  <div class="ambient-glow ambient-bottom-right"></div>
+
+  <div class="app-container" style="padding:20px; overflow-y:auto;">
+    <div style="text-align:center; margin: 16px 0 20px 0;">
+      <div class="vox-logo" style="font-size:26px;">VOX Setup</div>
+      <p style="font-size:13px; color:var(--text-secondary); margin-top:4px;">Let's establish your baseline finances</p>
+    </div>
+
+    <div class="glass-card">
+      <form id="pageOnboardForm">
+        <div class="form-group">
+          <label class="form-label">Your Name</label>
+          <input type="text" id="obName" class="form-control" placeholder="e.g. Saurabh" value="Saurabh" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Monthly Income (₹)</label>
+          <input type="number" id="obIncome" class="form-control" placeholder="30000" value="30000">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Physical Cash in Hand (₹)</label>
+          <input type="number" id="obCash" class="form-control" placeholder="125" value="125">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Bank & UPI Balance (₹)</label>
+          <input type="number" id="obBank" class="form-control" placeholder="18325" value="18325">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Monthly Rent (₹)</label>
+          <input type="number" id="obRent" class="form-control" placeholder="8000" value="8000">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Monthly Spending Budget (₹)</label>
+          <input type="number" id="obBudget" class="form-control" placeholder="15000" value="15000">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Emergency Savings Reserve (₹)</label>
+          <input type="number" id="obSavings" class="form-control" placeholder="20000" value="20000">
+        </div>
+
+        <div class="btn-group" style="margin-top:16px;">
+          <button type="submit" class="btn btn-primary">Save & Launch VOX</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module">
+    import { authService, dbService } from './js/firebaseService.js';
+
+    document.getElementById('pageOnboardForm').onsubmit = async (e) => {
+      e.preventDefault();
+      const user = authService.getCurrentUser() || await authService.loginDemoUser();
+
+      await dbService.saveProfile(user.uid, {
+        name: document.getElementById('obName').value,
+        monthlyIncome: parseFloat(document.getElementById('obIncome').value) || 30000,
+        openingCash: parseFloat(document.getElementById('obCash').value) || 125,
+        bankBalance: parseFloat(document.getElementById('obBank').value) || 18325,
+        rent: parseFloat(document.getElementById('obRent').value) || 8000,
+        monthlyBudget: parseFloat(document.getElementById('obBudget').value) || 15000,
+        savings: parseFloat(document.getElementById('obSavings').value) || 20000,
+        onboardingCompleted: true
+      });
+
+      window.location.href = 'index.html';
+    };
+  </script>
+</body>
+</html>
